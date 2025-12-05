@@ -2,24 +2,35 @@ module Day02 (solution, part1, part2, tests) where
 
 import AoC.Lib (readNum)
 import AoC.Template (Day (..), readExample, solve)
+import Data.List.Split
 import qualified Data.Text as T
 import Test.Hspec
 
 day :: Day
 day = Day 2
 
-isInvalid :: (Show a) => a -> Bool
-isInvalid n = let nStr = show n in let (former, latter) = splitAt (length nStr `div` 2) nStr in former == latter
+allEqual :: (Eq a) => [a] -> Bool
+allEqual [] = True
+allEqual (x : xs) = all (== x) xs
+
+isInvalid1 :: (Show a) => a -> Bool
+isInvalid1 n = let nStr = show n in let (former, latter) = splitAt (length nStr `div` 2) nStr in former == latter
+
+isInvalid2 :: (Show a) => a -> Bool
+isInvalid2 n = let nStr = show n in any (allEqual . flip chunksOf nStr) [1 .. length nStr `div` 2]
 
 rangeFromDoubleton :: (Integral a) => [a] -> [a]
 rangeFromDoubleton [m, n] = [m .. n]
 rangeFromDoubleton _ = undefined
 
+part :: (Int -> Bool) -> T.Text -> Maybe Int
+part isInvalid = Just . sum . concatMap (filter isInvalid . rangeFromDoubleton . map readNum . T.split (== '-')) . T.split (== ',')
+
 part1 :: T.Text -> Maybe Int
-part1 = Just . sum . concatMap (filter isInvalid . rangeFromDoubleton . map readNum . T.split (== '-')) . T.split (== ',')
+part1 = part isInvalid1
 
 part2 :: T.Text -> Maybe Int
-part2 _ = Nothing
+part2 = part isInvalid2
 
 solution :: IO ()
 solution = solve day part1 part2
