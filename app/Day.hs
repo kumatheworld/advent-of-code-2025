@@ -3,6 +3,7 @@ module Main (main) where
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
 import Text.Printf (printf)
+import qualified Day01
 
 main :: IO ()
 main = do
@@ -16,6 +17,7 @@ main = do
       exitFailure
 
 runDay :: Int -> IO ()
+runDay 1 = Day01.solution
 runDay day = do
   printf "Day %02d not yet implemented\n" day
   exitFailure

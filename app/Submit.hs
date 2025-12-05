@@ -14,6 +14,7 @@ import System.Exit (die)
 import Text.Printf (printf)
 
 -- AUTOGEN-IMPORTS (scaffold will add day imports here)
+import qualified Day01
 
 readYear :: IO Int
 readYear = read <$> readFile ".aoc-year"
@@ -40,6 +41,8 @@ computeAnswer day part = do
 
 runDay :: Int -> Int -> T.Text -> IO (Maybe Int)
 -- AUTOGEN-CASES (scaffold will add day cases here)
+runDay 1 1 input = return $ Day01.part1 input
+runDay 1 2 input = return $ Day01.part2 input
 runDay day _ _ = die $ "Day " ++ show day ++ " not yet implemented"
 
 submitSolution :: Int -> Int -> String -> IO ()
