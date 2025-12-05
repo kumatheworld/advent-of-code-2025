@@ -28,6 +28,7 @@ library
                , time
                , process
                , hspec
+               , split
 
 executable advent-of-code
   import: shared-properties
