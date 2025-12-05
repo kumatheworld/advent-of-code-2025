@@ -1,6 +1,6 @@
 module Day01 (solution, part1, part2, tests) where
 
-import AoC.Lib (readInt)
+import AoC.Lib (readNum)
 import AoC.Template (Day (..), readExample, solve)
 import Control.Monad
 import qualified Data.Text as T
@@ -23,14 +23,14 @@ start = (50, 0)
 
 step1 :: State -> T.Text -> Maybe State
 step1 (deg, pw) rot = case T.uncons rot of
-  Just ('L', deg_str) -> Just (deg', pw + fromEnum (deg' == 0)) where deg' = (deg - readInt deg_str) `mod` dLimit
-  Just ('R', deg_str) -> Just (deg', pw + fromEnum (deg' == 0)) where deg' = (deg + readInt deg_str) `mod` dLimit
+  Just ('L', deg_str) -> Just (deg', pw + fromEnum (deg' == 0)) where deg' = (deg - readNum deg_str) `mod` dLimit
+  Just ('R', deg_str) -> Just (deg', pw + fromEnum (deg' == 0)) where deg' = (deg + readNum deg_str) `mod` dLimit
   _ -> Nothing
 
 step2 :: State -> T.Text -> Maybe State
 step2 (deg, pw) rot = case T.uncons rot of
-  Just ('L', deg_str) -> Just (deg', pw - q - fromEnum (deg == 0) + fromEnum (deg' == 0)) where (q, deg') = (deg - readInt deg_str) `divMod` dLimit
-  Just ('R', deg_str) -> Just (deg', pw + q) where (q, deg') = (deg + readInt deg_str) `divMod` dLimit
+  Just ('L', deg_str) -> Just (deg', pw - q - fromEnum (deg == 0) + fromEnum (deg' == 0)) where (q, deg') = (deg - readNum deg_str) `divMod` dLimit
+  Just ('R', deg_str) -> Just (deg', pw + q) where (q, deg') = (deg + readNum deg_str) `divMod` dLimit
   _ -> Nothing
 
 part :: (State -> T.Text -> Maybe State) -> T.Text -> Maybe Int
