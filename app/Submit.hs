@@ -42,11 +42,11 @@ computeAnswer day part = do
 
 runDay :: Int -> Int -> T.Text -> IO (Maybe Int)
 -- AUTOGEN-CASES (scaffold will add day cases here)
-runDay 2 1 input = return $ Day02.part1 input
-runDay 2 2 input = return $ Day02.part2 input
-runDay 1 1 input = return $ Day01.part1 input
-runDay 1 2 input = return $ Day01.part2 input
-runDay day _ _ = die $ "Day " ++ show day ++ " not yet implemented"
+runDay 2 1 = return . Day02.part1
+runDay 2 2 = return . Day02.part2
+runDay 1 1 = return . Day01.part1
+runDay 1 2 = return . Day01.part2
+runDay day _ = \_ -> die $ "Day " ++ show day ++ " not yet implemented"
 
 submitSolution :: Int -> Int -> String -> IO ()
 submitSolution day part answer = do
