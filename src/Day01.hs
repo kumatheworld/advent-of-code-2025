@@ -21,17 +21,26 @@ dLimit = 100
 start :: State
 start = (50, 0)
 
-step :: State -> T.Text -> Maybe State
-step (deg, pw) rot = case T.uncons rot of
+step1 :: State -> T.Text -> Maybe State
+step1 (deg, pw) rot = case T.uncons rot of
   Just ('L', deg_str) -> Just (deg', pw + fromEnum (deg' == 0)) where deg' = (deg - readInt deg_str) `mod` dLimit
   Just ('R', deg_str) -> Just (deg', pw + fromEnum (deg' == 0)) where deg' = (deg + readInt deg_str) `mod` dLimit
   _ -> Nothing
 
+step2 :: State -> T.Text -> Maybe State
+step2 (deg, pw) rot = case T.uncons rot of
+  Just ('L', deg_str) -> Just (deg', pw - q - fromEnum (deg == 0) + fromEnum (deg' == 0)) where (q, deg') = (deg - readInt deg_str) `divMod` dLimit
+  Just ('R', deg_str) -> Just (deg', pw + q) where (q, deg') = (deg + readInt deg_str) `divMod` dLimit
+  _ -> Nothing
+
+part :: (State -> T.Text -> Maybe State) -> T.Text -> Maybe Int
+part step = fmap snd . foldM step start . T.lines
+
 part1 :: T.Text -> Maybe Int
-part1 = fmap snd . foldM step start . T.lines
+part1 = part step1
 
 part2 :: T.Text -> Maybe Int
-part2 _ = Nothing
+part2 = part step2
 
 solution :: IO ()
 solution = solve day part1 part2
