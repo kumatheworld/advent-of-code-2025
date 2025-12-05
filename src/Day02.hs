@@ -1,5 +1,6 @@
 module Day02 (solution, part1, part2, tests) where
 
+import AoC.Lib (readNum)
 import AoC.Template (Day (..), readExample, solve)
 import qualified Data.Text as T
 import Test.Hspec
@@ -7,8 +8,15 @@ import Test.Hspec
 day :: Day
 day = Day 2
 
+isInvalid :: (Show a) => a -> Bool
+isInvalid n = let nStr = show n in let (former, latter) = splitAt (length nStr `div` 2) nStr in former == latter
+
+rangeFromDoubleton :: (Integral a) => [a] -> [a]
+rangeFromDoubleton [m, n] = [m .. n]
+rangeFromDoubleton _ = undefined
+
 part1 :: T.Text -> Maybe Int
-part1 _ = Nothing
+part1 = Just . sum . concatMap (filter isInvalid . rangeFromDoubleton . map readNum . T.split (== '-')) . T.split (== ',')
 
 part2 :: T.Text -> Maybe Int
 part2 _ = Nothing
