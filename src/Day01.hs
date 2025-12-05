@@ -45,4 +45,4 @@ tests = describe "Day01" $ do
 
   it "solves part 2 with example 1" $ do
     input <- readExample day 1
-    part2 input `shouldBe` Just 0 -- TODO: Replace with expected value
+    part2 input `shouldBe` Just 6
