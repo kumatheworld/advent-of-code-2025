@@ -16,9 +16,10 @@ common shared-properties
 library
   import: shared-properties
   exposed-modules: AoC.Template
+                 , Day03
                  , Day02
-                 , AoC.Lib
                  , Day01
+                 , AoC.Lib
   hs-source-dirs: src
   build-depends: base >=4.17 && <5
                , text
