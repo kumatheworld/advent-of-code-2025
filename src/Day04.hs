@@ -19,15 +19,25 @@ neighbors ij mat =
       let j' = snd ij + dj
   ]
 
-part1 :: T.Text -> Maybe Int
-part1 input = Just . length $ filter accessible ijs
+step :: Matrix Char -> Matrix Char
+step mat = matrix (nrows mat) (ncols mat) (\ij -> if accessible ij then 'X' else mat ! ij)
   where
     accessible ij = mat ! ij == '@' && length (filter (== Just '@') (neighbors ij mat)) < 4
-    ijs = [(i, j) | i <- [1 .. nrows mat], j <- [1 .. ncols mat]]
-    mat = readMatrix input
+
+countX :: Matrix Char -> Int
+countX = length . filter (== 'X') . toList
+
+steps :: Int -> Matrix Char -> Int
+steps cnt mat =
+  let mat' = step mat
+      cnt' = countX mat'
+   in if cnt' == cnt then cnt else steps cnt' mat'
+
+part1 :: T.Text -> Maybe Int
+part1 = Just . countX . step . readMatrix
 
 part2 :: T.Text -> Maybe Int
-part2 _ = Nothing
+part2 = Just . steps 0 . readMatrix
 
 solution :: IO ()
 solution = solve day part1 part2
