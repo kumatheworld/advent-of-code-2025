@@ -31,6 +31,7 @@ library
                , process
                , hspec
                , split
+               , matrix
 
 executable advent-of-code
   import: shared-properties
