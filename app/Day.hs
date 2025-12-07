@@ -3,6 +3,7 @@ module Main (main) where
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
 import Text.Printf (printf)
+import qualified Day07
 import qualified Day06
 import qualified Day05
 import qualified Day04
@@ -28,6 +29,7 @@ runDay 3 = Day03.solution
 runDay 4 = Day04.solution
 runDay 5 = Day05.solution
 runDay 6 = Day06.solution
+runDay 7 = Day07.solution
 runDay day = do
   printf "Day %02d not yet implemented\n" day
   exitFailure

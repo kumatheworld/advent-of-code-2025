@@ -14,6 +14,7 @@ import System.Exit (die)
 import Text.Printf (printf)
 
 -- AUTOGEN-IMPORTS (scaffold will add day imports here)
+import qualified Day07
 import qualified Day06
 import qualified Day05
 import qualified Day04
@@ -46,6 +47,8 @@ computeAnswer day part = do
 
 runDay :: Int -> Int -> T.Text -> IO (Maybe Int)
 -- AUTOGEN-CASES (scaffold will add day cases here)
+runDay 7 1 = return . Day07.part1
+runDay 7 2 = return . Day07.part2
 runDay 6 1 = return . Day06.part1
 runDay 6 2 = return . Day06.part2
 runDay 5 1 = return . Day05.part1
