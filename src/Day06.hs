@@ -1,14 +1,25 @@
 module Day06 (solution, part1, part2, tests) where
 
+import AoC.Lib (readNum)
 import AoC.Template (Day (..), readExample, solve)
+import qualified Data.List as L
 import qualified Data.Text as T
 import Test.Hspec
 
 day :: Day
 day = Day 6
 
+reduce :: [T.Text] -> Maybe Int
+reduce [] = Nothing
+reduce (opT : valuesT) =
+  let op = case T.unpack opT of
+        "+" -> (+)
+        "*" -> (*)
+        _ -> undefined
+   in Just $ foldl1 op (map readNum valuesT)
+
 part1 :: T.Text -> Maybe Int
-part1 _ = Nothing
+part1 = fmap sum . mapM (reduce . reverse) . L.transpose . map T.words . T.lines
 
 part2 :: T.Text -> Maybe Int
 part2 _ = Nothing
