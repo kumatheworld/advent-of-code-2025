@@ -26,7 +26,7 @@ part input =
 part1 :: T.Text -> Maybe Int
 part1 input =
   let (ranges, idsT) = part input
-      ids = map readNum . filter (/= T.pack "") $ T.split (== '\n') idsT
+      ids = map readNum . T.split (== '\n') $ T.strip idsT
       isFresh n = or $ [l <= n && n <= r | (l, r) <- ranges] -- binary search would be faster but who cares
    in Just . length . filter isFresh $ ids
 
