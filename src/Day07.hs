@@ -40,11 +40,6 @@ tests = describe "Day07" $ do
     input <- readExample day 1
     part1 input `shouldBe` Just 21
 
-  -- Uncomment to test with additional examples (create files like 07-2.txt, 07-3.txt, etc.)
-  -- it "solves part 1 with example 2" $ do
-  --   input <- readExample day 2
-  --   part1 input `shouldBe` Just 0
-
   it "solves part 2 with example 1" $ do
     input <- readExample day 1
-    part2 input `shouldBe` Just 0 -- TODO: Replace with expected value
+    part2 input `shouldBe` Just 40
