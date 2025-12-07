@@ -1,4 +1,4 @@
-module AoC.Lib (readNum, readMatrix) where
+module AoC.Lib (readNum, readMatrix, splitToPair) where
 
 import Data.Matrix
 import qualified Data.Text as T
@@ -12,3 +12,8 @@ readNum t =
 
 readMatrix :: T.Text -> Matrix Char
 readMatrix = fromLists . map T.unpack . T.lines
+
+splitToPair :: String -> T.Text -> (T.Text, T.Text)
+splitToPair s t =
+  let (t1, t2) = T.breakOn (T.pack s) t
+   in (t1, T.drop (length s) t2)
