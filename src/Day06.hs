@@ -3,26 +3,33 @@ module Day06 (solution, part1, part2, tests) where
 import AoC.Lib (readNum)
 import AoC.Template (Day (..), readExample, solve)
 import qualified Data.List as L
+import Data.List.Split
 import qualified Data.Text as T
 import Test.Hspec
 
 day :: Day
 day = Day 6
 
-reduce :: [T.Text] -> Maybe Int
-reduce [] = Nothing
-reduce (opT : valuesT) =
-  let op = case T.unpack opT of
-        "+" -> (+)
-        "*" -> (*)
-        _ -> undefined
-   in Just $ foldl1 op (map readNum valuesT)
+-- Homework: unify the two parts
 
 part1 :: T.Text -> Maybe Int
-part1 = fmap sum . mapM (reduce . reverse) . L.transpose . map T.words . T.lines
+part1 = fmap sum . mapM compute . L.transpose . map T.words . reverse . T.lines
+  where
+    compute [] = Nothing
+    compute (opT : valuesT) =
+      case T.unpack opT of
+        "+" -> Just . sum $ map readNum valuesT
+        "*" -> Just . product $ map readNum valuesT
+        _ -> Nothing
 
 part2 :: T.Text -> Maybe Int
-part2 _ = Nothing
+part2 = fmap sum . mapM compute . splitOn [T.empty] . map T.strip . T.transpose . T.lines
+  where
+    compute [] = Nothing
+    compute (t : ts) = case T.unsnoc t of
+      Just (t1, '+') -> Just . sum $ map readNum (t1 : ts)
+      Just (t1, '*') -> Just . product $ map readNum (t1 : ts)
+      _ -> Nothing
 
 solution :: IO ()
 solution = solve day part1 part2
