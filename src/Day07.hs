@@ -8,27 +8,34 @@ import Test.Hspec
 day :: Day
 day = Day 7
 
-part1 :: T.Text -> Maybe Int
-part1 input = do
+-- What an unsightly mess!
+
+part :: T.Text -> Maybe (Int, Int)
+part input = do
   let ls = T.lines input
   start <- T.findIndex (== 'S') $ head ls
-  return $ numSplits [start] (tail . tail $ ls)
+  let (numSplits, beams) = descend 0 [(start, 1)] (tail . tail $ ls)
+  return (numSplits, sum $ map snd beams)
   where
-    numSplits _ [] = 0
-    numSplits beams (splittersT : rest) = n + numSplits beams' (tail rest)
+    descend numSplits beams [] = (numSplits, beams)
+    descend numSplits beams (splittersT : rest) = descend (numSplits + n) beams' (tail rest)
       where
         n = length . filter ((== 2) . length) $ splitBeams
-        beams' = L.nub $ concat splitBeams
+        beams' = map (foldl1 (\(x, y1) (_, y2) -> (x, y1 + y2))) . L.groupBy (\x y -> fst x == fst y) $ concat splitBeams
         splitBeams = forward (L.elemIndices '^' $ T.unpack splittersT) beams
+        forward :: [Int] -> [(Int, Int)] -> [[(Int, Int)]]
         forward [] bs = map (: []) bs
         forward _ [] = []
-        forward ss@(s : ss') bs@(b : bs') = case compare s b of
+        forward ss@(s : ss') bs@(b@(pos, mult) : bs') = case compare s pos of
           LT -> forward ss' bs
-          EQ -> [b - 1, b + 1] : forward ss' bs'
+          EQ -> [(pos - 1, mult), (pos + 1, mult)] : forward ss' bs'
           GT -> [b] : forward ss bs'
 
+part1 :: T.Text -> Maybe Int
+part1 = fmap fst . part
+
 part2 :: T.Text -> Maybe Int
-part2 _ = Nothing
+part2 = fmap snd . part
 
 solution :: IO ()
 solution = solve day part1 part2
