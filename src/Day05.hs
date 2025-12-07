@@ -1,5 +1,8 @@
+{-# LANGUAGE TypeApplications #-}
+
 module Day05 (solution, part1, part2, tests) where
 
+import AoC.Lib (readNum, splitToPair)
 import AoC.Template (Day (..), readExample, solve)
 import qualified Data.Text as T
 import Test.Hspec
@@ -8,7 +11,12 @@ day :: Day
 day = Day 5
 
 part1 :: T.Text -> Maybe Int
-part1 _ = Nothing
+part1 input =
+  let (rangesS, idsS) = splitToPair "\n\n" input
+      ranges = map (splitToPair "-") $ T.split (== '\n') rangesS
+      ids = map readNum . filter (/= T.pack "") $ T.split (== '\n') idsS
+      isFresh n = or $ [readNum @Int lt <= n && n <= readNum @Int rt | (lt, rt) <- ranges]
+   in Just . length . filter isFresh $ ids
 
 part2 :: T.Text -> Maybe Int
 part2 _ = Nothing
