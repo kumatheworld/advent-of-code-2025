@@ -2,6 +2,7 @@ import Test.Hspec
 
 -- Auto-generated imports will be inserted below this marker by the scaffold command
 -- AUTOGEN-IMPORTS
+import qualified Day08
 import qualified Day07
 import qualified Day06
 import qualified Day05
@@ -15,6 +16,7 @@ main = hspec $ do
   describe "Advent of Code Tests" $ do
     -- Auto-generated per-day tests will be inserted below this marker by scaffold
     -- AUTOGEN-TESTS
+    Day08.tests
     Day07.tests
     Day06.tests
     Day05.tests
