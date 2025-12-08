@@ -36,6 +36,7 @@ library
                , hspec
                , split
                , matrix
+               , equivalence
 
 executable advent-of-code
   import: shared-properties
