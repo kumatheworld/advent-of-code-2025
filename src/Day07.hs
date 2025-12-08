@@ -1,6 +1,7 @@
 module Day07 (solution, part1, part2, tests) where
 
 import AoC.Template (Day (..), readExample, solve)
+import Data.Function
 import qualified Data.List as L
 import qualified Data.Text as T
 import Test.Hspec
@@ -21,7 +22,7 @@ part input = do
     descend numSplits beams (splittersT : rest) = descend (numSplits + n) beams' (tail rest)
       where
         n = length . filter ((== 2) . length) $ splitBeams
-        beams' = map (foldl1 (\(x, y1) (_, y2) -> (x, y1 + y2))) . L.groupBy (\x y -> fst x == fst y) $ concat splitBeams
+        beams' = map (foldl1 (\(x, y1) (_, y2) -> (x, y1 + y2))) . L.groupBy ((==) `on` fst) $ concat splitBeams
         splitBeams = forward (L.elemIndices '^' $ T.unpack splittersT) beams
         forward :: [Int] -> [(Int, Int)] -> [[(Int, Int)]]
         forward [] bs = map (: []) bs
