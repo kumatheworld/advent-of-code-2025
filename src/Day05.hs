@@ -13,7 +13,7 @@ day = Day 5
 part :: T.Text -> ([(Int, Int)], T.Text)
 part input =
   let (rangesT, idsT) = splitToPair "\n\n" input
-      rangesMessed = map (bimap readNum readNum . splitToPair "-") $ T.split (== '\n') rangesT
+      rangesMessed = map (bimap readNum readNum . splitToPair "-") $ T.lines rangesT
       ranges = foldr step [] $ L.sortOn (\(x, y) -> (y, x)) rangesMessed
    in (ranges, idsT)
   where
@@ -26,7 +26,7 @@ part input =
 part1 :: T.Text -> Maybe Int
 part1 input =
   let (ranges, idsT) = part input
-      ids = map readNum . T.split (== '\n') $ T.strip idsT
+      ids = map readNum . T.lines $ idsT
       isFresh n = or $ [l <= n && n <= r | (l, r) <- ranges] -- binary search would be faster but who cares
    in Just . length . filter isFresh $ ids
 
