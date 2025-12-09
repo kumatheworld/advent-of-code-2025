@@ -1,6 +1,8 @@
 module Day09 (solution, part1, part2, tests) where
 
+import AoC.Lib (readNum, splitToPair)
 import AoC.Template (Day (..), readExample, solve)
+import Data.Bifunctor
 import qualified Data.Text as T
 import Test.Hspec
 
@@ -8,7 +10,10 @@ day :: Day
 day = Day 9
 
 part1 :: T.Text -> Maybe Int
-part1 _ = Nothing
+part1 input =
+  let ps = map (bimap readNum readNum . splitToPair ",") $ T.lines input
+      areas = [(x2 - x1 + 1) * abs (y2 - y1 + 1) | p1@(x1, y1) <- ps, p2@(x2, y2) <- ps, p1 < p2]
+   in Just $ maximum areas
 
 part2 :: T.Text -> Maybe Int
 part2 _ = Nothing
