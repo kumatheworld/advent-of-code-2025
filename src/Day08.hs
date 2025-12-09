@@ -23,7 +23,7 @@ part input =
       es = map fst $ L.sortOn snd [((m, n), dist2 p q) | (m, p) <- vs, (n, q) <- vs, m < n]
    in (xs, es)
   where
-    dist2 p q = foldr (\(x, y) -> ((x - y) * (x - y) +)) 0 $ zip p q
+    dist2 = (sum .) . zipWith (\x y -> (x - y) * (x - y))
 
 part1 :: T.Text -> Maybe Int
 part1 input =
