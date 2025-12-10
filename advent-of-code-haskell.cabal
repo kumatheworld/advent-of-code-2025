@@ -39,6 +39,7 @@ library
                , split
                , matrix
                , equivalence
+               , regex-tdfa
 
 executable advent-of-code
   import: shared-properties
