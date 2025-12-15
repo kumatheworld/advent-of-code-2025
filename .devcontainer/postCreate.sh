@@ -9,7 +9,7 @@ if command -v ormolu >/dev/null 2>&1; then
 fi
 
 sudo apt-get update
-sudo apt-get install -y build-essential curl libgmp-dev ca-certificates git pkg-config
+sudo apt-get install -y build-essential curl libgmp-dev ca-certificates git pkg-config coinor-cbc
 
 export BOOTSTRAP_HASKELL_NONINTERACTIVE=1
 export BOOTSTRAP_HASKELL_ALLOW_DOWNLOAD=1
