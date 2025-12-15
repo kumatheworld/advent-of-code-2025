@@ -40,6 +40,8 @@ library
                , matrix
                , equivalence
                , regex-tdfa
+               , MIP
+               , scientific
 
 executable advent-of-code
   import: shared-properties
