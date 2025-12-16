@@ -16,6 +16,7 @@ common shared-properties
 library
   import: shared-properties
   exposed-modules: AoC.Template
+                 , Day11
                  , Day10
                  , Day09
                  , Day08
