@@ -43,6 +43,7 @@ library
                , regex-tdfa
                , MIP
                , scientific
+               , array
 
 executable advent-of-code
   import: shared-properties
