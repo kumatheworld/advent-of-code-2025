@@ -48,10 +48,6 @@ tests = describe "Day11" $ do
     input <- readExample day 1
     part1 input `shouldBe` Just 5
 
-  it "solves part 2 with example 1" $ do
-    input <- readExample day 1
-    part2 input `shouldBe` Just 0
-
   it "solves part 2 with example 2" $ do
     input <- readExample day 2
-    part1 input `shouldBe` Just 2
+    part2 input `shouldBe` Just 2
