@@ -1,14 +1,39 @@
 module Day11 (solution, part1, part2, tests) where
 
+import AoC.Lib (splitToPair)
 import AoC.Template (Day (..), readExample, solve)
+import Control.Monad
+import Control.Monad.ST
+import qualified Data.Array as A
+import Data.Graph
+import qualified Data.List as L
 import qualified Data.Text as T
+import qualified Data.Vector.Unboxed.Mutable as VUM
 import Test.Hspec
 
 day :: Day
 day = Day 11
 
 part1 :: T.Text -> Maybe Int
-part1 _ = Nothing
+part1 input = do
+  let extendedInput = T.pack "out: " : T.lines input
+      (graph, _, vertexFromKey) = graphFromEdges $ map ((\(s, ts) -> (s, s, T.words ts)) . splitToPair ": ") extendedInput
+      vs = topSort graph
+      findV name = do
+        v <- vertexFromKey (T.pack name)
+        vid <- v `L.elemIndex` vs
+        return (v, vid)
+      reversedGraph = transposeG graph
+  (you, youV) <- findV "you"
+  (out, outV) <- findV "out"
+  return $ runST $ do
+    nPaths <- VUM.replicate (length vs) 0
+    VUM.write nPaths you 1
+    forM_
+      (drop (youV + 1) $ take (outV + 1) vs)
+      ( \v -> mapM (VUM.read nPaths) (reversedGraph A.! v) >>= VUM.write nPaths v . sum
+      )
+    VUM.read nPaths out
 
 part2 :: T.Text -> Maybe Int
 part2 _ = Nothing
