@@ -14,8 +14,8 @@ import Test.Hspec
 day :: Day
 day = Day 11
 
-part1 :: T.Text -> Maybe Int
-part1 input = do
+part :: String -> String -> T.Text -> Maybe Int
+part source target input = do
   let extendedInput = T.pack "out: " : T.lines input
       (graph, _, vertexFromKey) = graphFromEdges $ map ((\(s, ts) -> (s, s, T.words ts)) . splitToPair ": ") extendedInput
       vs = topSort graph
@@ -24,19 +24,23 @@ part1 input = do
         vid <- v `L.elemIndex` vs
         return (v, vid)
       reversedGraph = transposeG graph
-  (you, youV) <- findV "you"
-  (out, outV) <- findV "out"
+  (s, sV) <- findV source
+  (t, tV) <- findV target
   return $ runST $ do
     nPaths <- VUM.replicate (length vs) 0
-    VUM.write nPaths you 1
+    VUM.write nPaths s 1
     forM_
-      (drop (youV + 1) $ take (outV + 1) vs)
+      (drop (sV + 1) $ take (tV + 1) vs)
       ( \v -> mapM (VUM.read nPaths) (reversedGraph A.! v) >>= VUM.write nPaths v . sum
       )
-    VUM.read nPaths out
+    VUM.read nPaths t
 
+part1 :: T.Text -> Maybe Int
+part1 = part "you" "out"
+
+-- Some repetitions here but who cares
 part2 :: T.Text -> Maybe Int
-part2 _ = Nothing
+part2 input = product <$> sequence [part "svr" "fft" input, part "fft" "dac" input, part "dac" "out" input]
 
 solution :: IO ()
 solution = solve day part1 part2
